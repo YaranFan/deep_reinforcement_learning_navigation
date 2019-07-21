@@ -21,7 +21,8 @@ class QNetwork(nn.Module):
 
     def forward(self, state):
         '''
-        Aactivation functions
+        Aactivation functions:
+            state: state of the environment
         '''
         x = F.relu(self.fc1(state))
         x = F.relu(self.fc2(x))

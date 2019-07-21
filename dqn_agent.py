@@ -12,6 +12,19 @@ class Agent():
     '''
 
     def __init__(self, state_size, action_size, seed=1, buffer_size=100000, batch_size=64, gamma=0.99, tau=0.001, learning_rate=0.0005, update_step=4, device='cpu'):
+        '''
+        Initiate:
+            state_size: size of the state space
+            action_size: size of the action space
+            seed: (optional) random seed
+            buffer_size: (optional) size of the memory replay buffer
+            batch_size: (optional) size of the training sample for each batch
+            gamma: (optional) discount factor for the future reward
+            tau: (optional) parameter for softupdate 
+            learning_rate: (optional) learning rate
+            update_step: (optional) update every x time stemp
+            device: (optional) use CPU or GPU to train
+        '''
         # Parameters
         self.state_size = state_size
         self.action_size = action_size
@@ -94,6 +107,14 @@ class ReplayBuffer:
     '''
 
     def __init__(self, action_size, buffer_size=100000, batch_size=64, seed=1, device='cpu'):
+        '''
+        Initiate:
+            action_size: size of the action space
+            buffer_size: (optional) size of the memory replay buffer
+            batch_size: (optional) size of the training sample for each batch
+            seed: (optional) random seed
+            device: (optional) use CPU or GPU to train            
+        '''
         self.action_size = action_size
         self.memory = deque(maxlen=buffer_size)  
         self.batch_size = batch_size
