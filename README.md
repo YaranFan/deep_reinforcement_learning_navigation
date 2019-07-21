@@ -1,5 +1,7 @@
 # Navigation with DQN
-This project applied Deep Reinforcement Learning to solve a banana navigation environment. To visually see the environment, you can refer to the [trained_agent.mp4](trained_agent.mp4). This smart agent is trained with the model built in the repository.
+This project applied Deep Reinforcement Learning to solve a banana navigation environment. To visually see the environment, you can refer to the following GIF. This smart agent is trained with the model built in the repository. 
+
+![Trained_Agent](trained_agent.gif)
 
 ## Project Summary - Banana Navigation
 Here is a high-level summary of the environment:
