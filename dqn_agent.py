@@ -17,7 +17,7 @@ class Agent():
             state_size: size of the state space
             action_size: size of the action space
             seed: (optional) random seed
-            buffer_size: (optional) size of the memory replay buffer
+            buffer_size: (optional) size of the experience replay buffer
             batch_size: (optional) size of the training sample for each batch
             gamma: (optional) discount factor for the future reward
             tau: (optional) parameter for softupdate 
@@ -110,7 +110,7 @@ class ReplayBuffer:
         '''
         Initiate:
             action_size: size of the action space
-            buffer_size: (optional) size of the memory replay buffer
+            buffer_size: (optional) size of the experience  replay buffer
             batch_size: (optional) size of the training sample for each batch
             seed: (optional) random seed
             device: (optional) use CPU or GPU to train            
