@@ -6,9 +6,6 @@ import random
 from collections import namedtuple, deque
 from model import QNetwork
 
-
-
-
 class Agent():
     '''
     An agent that interacts with and learns from the environment.
@@ -33,7 +30,7 @@ class Agent():
         self.optimizer = optim.Adam(self.qnetwork_local.parameters(), lr=learning_rate)
 
         # Replay memory
-        self.memory = ReplayBuffer(action_size, self.buffer_size, self.batch_size, seed)
+        self.memory = ReplayBuffer(action_size, self.buffer_size, self.batch_size, seed=seed, device=self.device)
     
     def step(self, state, action, reward, next_state, done):
         '''
@@ -43,7 +40,7 @@ class Agent():
         self.t_step = self.t_step + 1
         if ((self.t_step + 1) % self.update_step)==0 and len(self.memory)>self.batch_size:
             experiences = self.memory.sample()
-            self.learn(experiences)
+            self.learn(experiences, double_dqn=True)
 
     def act(self, state, eps=0.0):
         '''
@@ -61,13 +58,17 @@ class Agent():
         else:
             return int(random.choice(np.arange(self.action_size)))
 
-    def learn(self, experiences):
+    def learn(self, experiences, double_dqn=True):
         '''
         Update value parameters using given batch of experience tuples
         '''
         # Update local network
         states, actions, rewards, next_states, dones = experiences
-        Q_targets_next = self.qnetwork_target(next_states).detach().max(1)[0].unsqueeze(1)
+        if double_dqn:
+            next_actions = self.qnetwork_local(next_states).detach().max(1)[1].unsqueeze(1)
+            Q_targets_next = self.qnetwork_target(next_states).detach().gather(1, next_actions)
+        else:
+            Q_targets_next = self.qnetwork_target(next_states).detach().max(1)[0].unsqueeze(1)
         Q_targets = rewards + (self.gamma * Q_targets_next * (1 - dones))
         Q_expected = self.qnetwork_local(states).gather(1, actions)
         loss = F.mse_loss(Q_expected, Q_targets)
